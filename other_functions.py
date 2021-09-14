@@ -5,7 +5,9 @@
 # You will also find improvement ideas and explanations
 
 import pandas as pd
-import csv, json, time
+import csv
+import json
+import time
 import os.path
 from datetime import datetime
 from shutil import copyfile
@@ -16,25 +18,29 @@ import requests
 from bs4 import BeautifulSoup
 import tulipy as ti
 
-def block_thread(logger=False,exception=False,thName='',assName=''):
+
+def block_thread(logger=False, exception=False, thName='', assName=''):
     # this function will lock the thread visually, in case a fatal error happened
 
     while True:
         if logger:
-            logger.info('\n\n\n\n\n\n THREAD %s BLOCKED (%s)\n\n\n\n\n\n' % (thName,assName))
+            logger.info(
+                '\n\n\n\n\n\n THREAD %s BLOCKED (%s)\n\n\n\n\n\n' % (thName, assName))
         else:
-            print('\n\n\n\n\n\n THREAD %s BLOCKED (%s)\n\n\n\n\n\n' % (thName,assName))
+            print('\n\n\n\n\n\n THREAD %s BLOCKED (%s)\n\n\n\n\n\n' %
+                  (thName, assName))
 
         if exception:
             print(str(exception))
 
         time.sleep(10)
 
-def million_to_float(string,scale=False):
+
+def million_to_float(string, scale=False):
 
     try:
-        string = string.replace('$','')
-        string = string.replace(',','')
+        string = string.replace('$', '')
+        string = string.replace(',', '')
 
         if 'million' in string or 'M' in string:
             string = string.strip(' million')
@@ -58,9 +64,10 @@ def million_to_float(string,scale=False):
         else:
             string = float(string)
 
-        return round(string,2)
+        return round(string, 2)
     except Exception as e:
         print(e)
+
 
 def create_log_folder(path):
 
@@ -72,12 +79,13 @@ def create_log_folder(path):
         os.mkdir(gvars.LOGS_PATH)
 
     folderName = datetime.now().strftime("%Y%m%d_%H%M%S")
-    path = path  + folderName + '/'
+    path = path + folderName + '/'
 
     if not os.path.exists(path):
         os.mkdir(path)
 
     return path
+
 
 def load_param(param=False):
 
